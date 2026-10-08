@@ -1,0 +1,106 @@
+{
+  "benchmark_name": "ChainMath Benchmark",
+  "version": "1.0",
+  "description": "Validated results from the first public evaluation round of ChainMath Benchmark.",
+  "evaluation_date": "2026-10",
+  "total_questions": 200,
+  "difficulty_distribution": {
+    "1_star": 60,
+    "2_stars": 50,
+    "3_stars": 40,
+    "4_stars": 30,
+    "5_stars": 20
+  },
+  "scoring_notes": [
+    "Score is weighted by difficulty (★=1.0, ★★=1.5, ★★★=2.5, ★★★★=4.0, ★★★★★=6.0).",
+    "A -10% penalty applies if the model failed to produce valid JSON on the first attempt.",
+    "An order-compliance penalty (up to -15%) applies for answers not sorted by ID.",
+    "Correctness tolerance: ±0.01 absolute OR ±0.1% relative.",
+    "Scores are clamped to [0, 100]."
+  ],
+  "models": [
+    {
+      "model_id": "chatgpt-5.6-luna",
+      "display_name": "ChatGPT 5.6 Luna",
+      "provider": "OpenAI",
+      "interface": "ChatGPT Web",
+      "thinking_mode": false,
+      "tools_used": true,
+      "final_score": 26.42,
+      "raw_correctness_pct": 37.80,
+      "json_first_try": false,
+      "json_penalty_pct": 10.0,
+      "order_violations": 14,
+      "order_penalty_pct": 1.38,
+      "notes": "Model frequently confused chained references between questions. Failed to produce valid JSON on first attempt. Strong on isolated arithmetic but collapsed under multi-step dependency chains."
+    },
+    {
+      "model_id": "gemini-3.6-flash",
+      "display_name": "Gemini 3.6 Flash",
+      "provider": "Google",
+      "interface": "Gemini Web",
+      "thinking_mode": true,
+      "tools_used": false,
+      "final_score": 75.36,
+      "raw_correctness_pct": 75.36,
+      "json_first_try": true,
+      "json_penalty_pct": 0.0,
+      "order_violations": 0,
+      "order_penalty_pct": 0.0,
+      "notes": "Solid performance with extended reasoning enabled. Perfect JSON compliance and ordering. Struggled most with difficulty ★★★★★ questions involving cross-language anaphora."
+    },
+    {
+      "model_id": "claude-haiku-5.5",
+      "display_name": "Claude Haiku 5.5",
+      "provider": "Anthropic",
+      "interface": "Claude Chat",
+      "thinking_mode": true,
+      "tools_used": true,
+      "final_score": 84.29,
+      "raw_correctness_pct": 84.29,
+      "json_first_try": true,
+      "json_penalty_pct": 0.0,
+      "order_violations": 0,
+      "order_penalty_pct": 0.0,
+      "notes": "Best overall result in this cohort. Excellent handling of conditional and comparison questions. Reasoning mode clearly improved performance on high-difficulty chains."
+    },
+    {
+      "model_id": "qwen-3.8-max",
+      "display_name": "Qwen 3.8-Max",
+      "provider": "Alibaba / Qwen",
+      "interface": "Qwen Chat",
+      "thinking_mode": true,
+      "tools_used": true,
+      "final_score": 10.56,
+      "raw_correctness_pct": 23.10,
+      "json_first_try": false,
+      "json_penalty_pct": 10.0,
+      "order_violations": 22,
+      "order_penalty_pct": 2.54,
+      "notes": "Significant order violation penalty. Model appeared to answer questions independently rather than tracking the running chain. JSON format issues on first try added further penalty."
+    },
+    {
+      "model_id": "deepseek-v4.1-flash",
+      "display_name": "DeepSeek V4.1 Flash",
+      "provider": "DeepSeek",
+      "interface": "DeepSeek Chat",
+      "thinking_mode": true,
+      "tools_used": true,
+      "final_score": 71.19,
+      "raw_correctness_pct": 71.19,
+      "json_first_try": true,
+      "json_penalty_pct": 0.0,
+      "order_violations": 0,
+      "order_penalty_pct": 0.0,
+      "notes": "Competent performance with extended reasoning. Weakness in cross-language difficulty ★★★★ questions. Handled conversion and fraction chains well."
+    }
+  ],
+  "summary": {
+    "highest_score": {"model": "Claude Haiku 5.5", "score": 84.29},
+    "lowest_score": {"model": "Qwen 3.8-Max", "score": 10.56},
+    "average_score": 53.56,
+    "models_with_json_penalty": ["ChatGPT 5.6 Luna", "Qwen 3.8-Max"],
+    "models_with_order_violations": ["ChatGPT 5.6 Luna", "Qwen 3.8-Max"],
+    "key_observation": "Models with extended reasoning / thinking mode consistently outperformed those without. JSON format discipline and chain-tracking are strong differentiators in this benchmark."
+  }
+}
